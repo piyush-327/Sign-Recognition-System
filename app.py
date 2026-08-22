@@ -2,10 +2,14 @@ import os
 import subprocess
 import sys
 if not os.path.exists("patch_applied.txt"):
-    subprocess.check_call([sys.executable, "-m", "pip", "uninstall", "-y", "opencv-python", "opencv-contrib-python"])
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "opencv-python-headless"])
-    with open("patch_applied.txt", "w") as f:
-        f.write("patched")
+    try:
+        subprocess.call([sys.executable, "-m", "pip", "uninstall", "-y", "opencv-python", "opencv-contrib-python"])
+        subprocess.call([sys.executable, "-m", "pip", "install", "-U", "opencv-python-headless"])
+    except Exception as e:
+        pass
+    finally:
+        with open("patch_applied.txt", "w") as f:
+            f.write("patched")
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer
 import cv2
